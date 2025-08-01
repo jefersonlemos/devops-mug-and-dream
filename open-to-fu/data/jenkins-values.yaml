@@ -1,0 +1,10 @@
+controller:
+  admin:
+    username: admin
+    password: admin
+  serviceType: NodePort
+  installPlugins:
+    - kubernetes
+    - workflow-aggregator
+    - git
+    - configuration-as-code

@@ -1,0 +1,55 @@
+# This file is maintained automatically by "tofu init".
+# Manual edits may be lost in future updates.
+
+provider "registry.opentofu.org/hashicorp/helm" {
+  version     = "2.12.1"
+  constraints = "~> 2.12.1"
+  hashes = [
+    "h1:S0+5VN/viVA4YYpm9q45bZ903EqP3bwjv5abps+a3lE=",
+    "zh:0349149992646530c33314cb973eba68757606a037017ba47e56db695d4b3afe",
+    "zh:3138ffe23c481b01419a4a21adf83538efe6e698b421c4a8f7d142b198518709",
+    "zh:44658e3070405b88fbd76161ecddde62f478dc31aaebee3b93c2f2783a6d45f9",
+    "zh:5600a3407dfb8b77da7561490157afa8ad505c864a5dd35ed8d678e9ad8378ca",
+    "zh:6445e359c813ecbb7c2edf722ed0d1f33dfb171b6a7b470f40cf1e24045b7441",
+    "zh:7973054604c7f5a51600f6e63fa0327d05b29fac2bffd222c21660cbdd2939f9",
+    "zh:7c59e2d4602ab5d9de0ba8e442ec1fc425c8f143581018d1e7f645298a124f01",
+    "zh:8c0fb411dd5de664ac5e801d70507781790c4fc196518a56966d66d0963c240c",
+    "zh:a6a988c91bbf1828a8fc55001f10c7d06c5c53dc718ee7cd6814bdfa2e6652e0",
+    "zh:b7935d7dacd7e5a91ff9d17cfb04ce88c9100e563fd88487d14519e8d8d8b2e1",
+  ]
+}
+
+provider "registry.opentofu.org/hashicorp/kubernetes" {
+  version     = "2.29.0"
+  constraints = "~> 2.29.0"
+  hashes = [
+    "h1:6wueJiWzDIQiMruGlxPZe8xtsyRs+IsNUb2TJ0P0nT8=",
+    "zh:2467de940f98ef5d3ed977a0f6b797962cd9ae6210ef706b8f6e6db23a0b3b99",
+    "zh:480a2ccc9e1f3a444b6ebf836d87061002be00c54482be7180e090dddc47809e",
+    "zh:4ce04ba31734813d6636b51b2346b8262253264033be2775d66e8298551c2dde",
+    "zh:56b94fcd5ba65cae892fd64e831838369ae4615582c314eee73fa2e513689991",
+    "zh:5a7e858dc3600e542182abcec9079e2f8741d1ba72114e87668ef64679e7191a",
+    "zh:905b6eb78f19bd80b22c688af06130353977f77f313738c8e0cfc524e8550d4c",
+    "zh:ccf5c3e7383d11785a735a0ce7751e4ff394b133aa5085857139eaec1d9a54c1",
+    "zh:eb4e72d3abf937c283f702342eb1fc820b3dbfc743b1e24c84c3604c8fca1988",
+    "zh:eea59cd51ef366269231cbfa5b77fc3b9fbebecfd6bca8dff27e5abd96188d92",
+    "zh:f026a8b4fa2ca566c3d6cd9bfdd0dd58c0631e3d945b98a8ced0943aa27dd4bd",
+  ]
+}
+
+provider "registry.opentofu.org/hashicorp/null" {
+  version = "3.2.4"
+  hashes = [
+    "h1:jsKjBiLb+v3OIC3xuDiY4sR0r1OHUMSWPYKult9MhT0=",
+    "zh:1769783386610bed8bb1e861a119fe25058be41895e3996d9216dd6bb8a7aee3",
+    "zh:32c62a9387ad0b861b5262b41c5e9ed6e940eda729c2a0e58100e6629af27ddb",
+    "zh:339bf8c2f9733fce068eb6d5612701144c752425cebeafab36563a16be460fb2",
+    "zh:36731f23343aee12a7e078067a98644c0126714c4fe9ac930eecb0f2361788c4",
+    "zh:3d106c7e32a929e2843f732625a582e562ff09120021e510a51a6f5d01175b8d",
+    "zh:74bcb3567708171ad83b234b92c9d63ab441ef882b770b0210c2b14fdbe3b1b6",
+    "zh:90b55bdbffa35df9204282251059e62c178b0ac7035958b93a647839643c0072",
+    "zh:ae24c0e5adc692b8f94cb23a000f91a316070fdc19418578dcf2134ff57cf447",
+    "zh:b5c10d4ad860c4c21273203d1de6d2f0286845edf1c64319fa2362df526b5f58",
+    "zh:e05bbd88e82e1d6234988c85db62fd66f11502645838fff594a2ec25352ecd80",
+  ]
+}
