@@ -4,10 +4,10 @@ resource "null_resource" "jenkins" {
       helm repo add jenkins https://charts.jenkins.io
       helm repo update
       helm upgrade --install jenkins jenkins/jenkins \
-        --namespace jenkins --create-namespace \
+        --namespace shared \
         -f ${path.module}/data/jenkins-config.yaml
     EOT
   }
 
-  depends_on = [null_resource.minikube]
+  depends_on = [kubernetes_namespace.shared]
 }
