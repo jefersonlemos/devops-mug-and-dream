@@ -2,9 +2,10 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"encoding/json"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"strings"
 
@@ -12,6 +13,12 @@ import (
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 )
+
+type PodInfo struct {
+	Namespace       string `json:"namespace"`
+	InstanceName    string `json:"instanceName"`
+	RunningPodCount int    `json:"runningPodCount"`
+}
 
 func main() {
 	config, err := rest.InClusterConfig()
@@ -24,32 +31,46 @@ func main() {
 		panic(err.Error())
 	}
 
-	namespace, err := getCurrentNamespace()
-	if err != nil {
-		log.Printf("Cannot get current namespace, defaulting to 'default': %v", err)
-		namespace = "default"
-	}
-
-	podName := os.Getenv("HOSTNAME")
-	if podName == "" {
-		podName = "unknown"
-	}
-
-	pods, err := clientset.CoreV1().Pods(namespace).List(context.TODO(), v1.ListOptions{})
-	if err != nil {
-		panic(err.Error())
-	}
-
-	runningCount := 0
-	for _, pod := range pods.Items {
-		if pod.Status.Phase == "Running" {
-			runningCount++
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		namespace, err := getCurrentNamespace()
+		if err != nil {
+			log.Printf("Cannot get current namespace, defaulting to 'default': %v", err)
+			namespace = "default"
 		}
-	}
 
-	fmt.Printf("Namespace: %s\n", namespace)
-	fmt.Printf("Instance (Pod) Name: %s\n", podName)
-	fmt.Printf("Number of Running Pods in Namespace: %d\n", runningCount)
+		podName := os.Getenv("HOSTNAME")
+		if podName == "" {
+			podName = "unknown"
+		}
+
+		pods, err := clientset.CoreV1().Pods(namespace).List(context.TODO(), v1.ListOptions{})
+		if err != nil {
+			http.Error(w, "Failed to list pods: "+err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		runningCount := 0
+		for _, pod := range pods.Items {
+			if pod.Status.Phase == "Running" {
+				runningCount++
+			}
+		}
+
+		info := PodInfo{
+			Namespace:       namespace,
+			InstanceName:    podName,
+			RunningPodCount: runningCount,
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		if err := json.NewEncoder(w).Encode(info); err != nil {
+			http.Error(w, "Failed to encode JSON: "+err.Error(), http.StatusInternalServerError)
+			return
+		}
+	})
+
+	log.Println("Starting server on :9090")
+	log.Fatal(http.ListenAndServe(":9090", nil))
 }
 
 func getCurrentNamespace() (string, error) {
