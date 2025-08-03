@@ -2,10 +2,10 @@ FROM golang:1.25-rc-alpine AS builder
 
 WORKDIR /app
 
-COPY go.mod go.sum ./
+COPY app/go.mod app/go.sum ./
 RUN go mod download
 
-COPY . .
+COPY app/main.go .
 
 RUN go build -o app .
 
