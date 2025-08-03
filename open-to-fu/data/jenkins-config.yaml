@@ -1,0 +1,16 @@
+controller:
+  adminUser: admin
+  adminPassword: admin123
+
+  serviceType: NodePort
+
+  installPlugins:
+    - kubernetes # Enables Jenkins to run build agents as pods in a Kubernetes cluster.
+    - workflow-aggregator # Provides support for Jenkins Pipelines (Jenkinsfile syntax and steps).
+    - git # Allows Jenkins to clone and work with Git repositories.
+    - configuration-as-code # Lets you configure Jenkins entirely using YAML files (JCasC).
+
+persistence:
+  enabled: true
+  size: 4Gi
+  storageClass: standard

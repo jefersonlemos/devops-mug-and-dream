@@ -1,5 +1,6 @@
-resource "null_resource" "start_minikube" {
+resource "null_resource" "minikube" {
   provisioner "local-exec" {
-    command = "${path.module}/data/setup.sh"
+    command = "${path.module}/data/minikube.sh"
   }
+  depends_on = [null_resource.setup]
 }

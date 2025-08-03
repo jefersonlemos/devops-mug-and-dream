@@ -5,3 +5,26 @@
 * https://helm.sh/
 * https://grafana.com/
 * https://prometheus.io/
+
+
+
+# decisions
+
+### is good to try
+create and destroy everything by tofu file, everything. And, create tests to ensure the wholo ecossystem will created as should be and destroyed too.
+
+### jenkins
+try to use as a code, if it is possible, we can create and recreate our jenkins each time without lost any data or pipeline or any configurations.
+
+### k8s
+always use `serviceType` as `portnode`, but why?
+To understand I'll give more context, then:
+* What's serviceType? 
+K8S provide a network endpoint for a Pods, enabling communication both within and outside the cluster. The type property in a Service's specification determines how the service is exposed. 
+
+    * Possibilities to setup: ClusterIP, NodePort, LoadBalancer, ExternalName, to clearify I'll explain each one bellow
+
+        * ClusterIP -> it will expose the service with ip address within the cluster, limiting communication between current cluster context.
+        * NodePort -> it will create one static port in the node, it will open one channel to receive communication outside the cluster from an static port.
+        * LoadBalancer -> This will expose the service to the world, usually, will use cloud provider, but not necessarialy, this kind of service will provide a public ip address to be accessed, if you are using a cloud provider, probabbly you will have one DNS linked in your IPAddres but if your infra is  onpremise, I hope not, but, if is, cname no will linked automaticcaly like a cloud provider.
+        * ExternalName -> will map your service (internal service) to one external DNS (cname), like github.com, it could be one service mapped on one k8s cluster with ExternalName.
