@@ -1,28 +1,45 @@
 pipeline {
     agent any
 
+    tools {
+        go 'go-1.24.5'
+        git 'git'
+    }
+
     parameters {
         choice(name: 'ENV', choices: ['dev', 'prod'], description: 'Choose environment')
     }
 
     stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build Go App') {
+            steps {
+                sh """
+                mkdir -p bin
+                go mod tidy
+                GOOS=linux GOARCH=amd64 go build -o bin/app app/main.go
+                """
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
-                script {
-                    sh """
-                    docker build \
-                      -t app:${params.ENV} \
-                      -f app/Dockerfile .
-                    """
-                }
+                sh """
+                docker build \
+                  -t app:${params.ENV} \
+                  -f app/Dockerfile .
+                """
             }
         }
 
         stage('Test Container') {
             steps {
-                sh """
-                docker run --rm app:${params.ENV}
-                """
+                sh "docker run --rm app:${params.ENV}"
             }
         }
     }

@@ -10,6 +10,7 @@ controller:
     - workflow-aggregator # Provides support for Jenkins Pipelines (Jenkinsfile syntax and steps).
     - git # Allows Jenkins to clone and work with Git repositories.
     - configuration-as-code # Lets you configure Jenkins entirely using YAML files (JCasC).
+    - golang
 
 persistence:
   enabled: true
