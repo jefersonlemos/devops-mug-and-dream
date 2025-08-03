@@ -16,6 +16,16 @@ create and destroy everything by tofu file, everything. And, create tests to ens
 ### jenkins
 try to use as a code, if it is possible, we can create and recreate our jenkins each time without lost any data or pipeline or any configurations.
 
+to connect to jenkins:  
+```
+kubectl port-forward service/jenkins 8080:8080 -n shared
+````
+
+### namespaces
+* dev, prod, shared
+
+I guessing that dev and prod are self-explanatory, and I think to create shared namespace to couple that apps can be use in both context, like dev and prod or to produce outputs in both.
+
 ### k8s
 always use `serviceType` as `portnode`, but why?
 To understand I'll give more context, then:
@@ -29,15 +39,20 @@ K8S provide a network endpoint for a Pods, enabling communication both within an
         * LoadBalancer -> This will expose the service to the world, usually, will use cloud provider, but not necessarialy, this kind of service will provide a public ip address to be accessed, if you are using a cloud provider, probabbly you will have one DNS linked in your IPAddres but if your infra is  onpremise, I hope not, but, if is, cname no will linked automaticcaly like a cloud provider.
         * ExternalName -> will map your service (internal service) to one external DNS (cname), like github.com, it could be one service mapped on one k8s cluster with ExternalName.
 
-    ### extras 
-    As I even lazy, I hate to write a lot of code, I mean, I always trying to create some scripts to improve or take my work more efficently, or if you prefer to tell, lazily, but a bit fast.
-    Knowing this, below I'll my extras tools and something else:
+### namespaces
+* dev, prod, shared
 
-    * https://github.com/ahmetb/kubectx
-        * I like this one because it turn my comands more quickly and a bit small, with this, you can switch between your namespaces and context without effort
-            * You'd like to use `kubens` or `kubectx`
-                * these below are the kubectl fully commands
-                * `kubectl config set-context --current --namespace=<your-namespace-name>`
-                * `kubectl config use-context <context-name>`
-    * https://k9scli.io/
-        * this is your bff, I really appreciate this one because is an interface built for terminal to work with you in your k8s cluster, more human-friendly.
+I guessing that dev and prod are self-explanatory, and I think to create shared namespace to couple that apps can be use in both context, like dev and prod or to produce outputs in both.
+
+### extras 
+As I even lazy, I hate to write a lot of code, I mean, I always trying to create some scripts to improve or take my work more efficently, or if you prefer to tell, lazily, but a bit fast.
+Knowing this, below I'll my extras tools and something else:
+
+* https://github.com/ahmetb/kubectx
+    * I like this one because it turn my comands more quickly and a bit small, with this, you can switch between your namespaces and context without effort
+        * You'd like to use `kubens` or `kubectx`
+            * these below are the kubectl fully commands
+            * `kubectl config set-context --current --namespace=<your-namespace-name>`
+            * `kubectl config use-context <context-name>`
+* https://k9scli.io/
+    * this is your bff, I really appreciate this one because is an interface built for terminal to work with you in your k8s cluster, more human-friendly.
