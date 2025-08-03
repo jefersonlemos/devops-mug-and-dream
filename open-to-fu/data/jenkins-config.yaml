@@ -11,6 +11,7 @@ controller:
     - git # Allows Jenkins to clone and work with Git repositories.
     - configuration-as-code # Lets you configure Jenkins entirely using YAML files (JCasC).
     - golang
+    - docker-plugin
 
 persistence:
   enabled: true
