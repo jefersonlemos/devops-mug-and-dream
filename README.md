@@ -56,3 +56,6 @@ Knowing this, below I'll my extras tools and something else:
             * `kubectl config use-context <context-name>`
 * https://k9scli.io/
     * this is your bff, I really appreciate this one because is an interface built for terminal to work with you in your k8s cluster, more human-friendly.
+
+### minikube
+* run `eval $(minikube docker-env)` to use on my host terminal like a minikube docker

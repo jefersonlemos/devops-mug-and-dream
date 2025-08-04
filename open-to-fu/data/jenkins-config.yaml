@@ -1,4 +1,7 @@
 controller:
+  env:
+      - name: CASC_JENKINS_CONFIG
+        value: /var/jenkins_home/casc_configs/jenkins.yaml
   admin:
     username: admin
     password: admin123
@@ -6,14 +9,43 @@ controller:
   serviceType: NodePort
 
   installPlugins:
-    - kubernetes # Enables Jenkins to run build agents as pods in a Kubernetes cluster.
-    - workflow-aggregator # Provides support for Jenkins Pipelines (Jenkinsfile syntax and steps).
-    - git # Allows Jenkins to clone and work with Git repositories.
-    - configuration-as-code # Lets you configure Jenkins entirely using YAML files (JCasC).
+    - kubernetes
+    - workflow-aggregator
+    - git
+    - configuration-as-code
     - golang
     - docker-plugin
+
+  volumes:
+  - name: casc-config-volume
+    configMap:
+      name: jenkins-casc-config
+  - name: dockersock
+    hostPath:
+      path: /var/run/docker.sock
+
+  volumeMounts:
+    - name: casc-config-volume
+      mountPath: /var/jenkins_home/casc_configs
+    - name: dockersock
+      mountPath: /var/run/docker.sock
 
 persistence:
   enabled: true
   size: 4Gi
   storageClass: standard
+
+agent:
+  enabled: true
+  image:
+    registry: ""
+    repository: jenkins-agent-with-docker
+    tag: latest
+    pullPolicy: IfNotPresent
+  volumes:
+    - name: dockersock
+      hostPath:
+        path: /var/run/docker.sock
+  volumeMounts:
+    - name: dockersock
+      mountPath: /var/run/docker.sock
