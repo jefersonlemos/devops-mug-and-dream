@@ -1,0 +1,4 @@
+apiVersion: v2
+name: jenkins
+description: A Helm chart to deploy Jenkins
+version: 0.1.0

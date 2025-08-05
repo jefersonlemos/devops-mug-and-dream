@@ -1,0 +1,16 @@
+image:
+  repository: jenkins
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 8080
+  nodePort: 30000
+
+persistence:
+  enabled: true
+  storageClass: "standard"
+  size: 2Gi
+
+resources: {}
