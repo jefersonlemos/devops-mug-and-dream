@@ -1,7 +1,14 @@
 resource "null_resource" "minikube" {
   provisioner "local-exec" {
-    command = "${path.module}/data/minikube.sh"
+    when = create
+    command = "${path.module}/data/minikube_create.sh"
   }
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = "${path.module}/data/minikube_destroy.sh"
+  }
+
   depends_on = [null_resource.setup]
 }
 
