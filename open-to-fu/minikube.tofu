@@ -13,6 +13,7 @@ resource "null_resource" "minikube" {
 }
 
 resource "kubernetes_namespace" "shared" {
+  provider = kubernetes.after_minikube
   metadata {
     annotations = {
       description = "this namespace should be used for shared applications"
@@ -28,6 +29,7 @@ resource "kubernetes_namespace" "shared" {
 }
 
 resource "kubernetes_namespace" "dev" {
+  provider = kubernetes.after_minikube
   metadata {
     annotations = {
       description = "development ecossystem"
@@ -43,6 +45,7 @@ resource "kubernetes_namespace" "dev" {
 }
 
 resource "kubernetes_namespace" "prod" {
+  provider = kubernetes.after_minikube
   metadata {
     annotations = {
       description = "release apps"
