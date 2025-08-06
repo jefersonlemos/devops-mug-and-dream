@@ -9,9 +9,9 @@
 # to run and destroy
 to create run
 ```
-tofu destroy --auto-approve 
-tofu apply -target=null_resource.minikube --auto-approve
-tofu apply --auto-approve
+tofu destroy
+tofu apply -target=null_resource.minikube
+tofu apply
 ```
 or only one command
 ```
@@ -20,6 +20,11 @@ tofu destroy --auto-approve && tofu apply -target=null_resource.minikube --auto-
 
 *if prefer, remove --auto-approve.*
 Obs: Is importatnt to run first `--target=null_resource.minikube`, it will create the (k8s) cluster first, then will give us the k8s context, after that we can use this contexto to perform our k8s commands.
+
+to delete, simply run 
+```
+tofu destroy
+```
 
 # decisions
 
