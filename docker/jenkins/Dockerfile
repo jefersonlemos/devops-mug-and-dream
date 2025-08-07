@@ -17,7 +17,7 @@ COPY plugins /usr/share/jenkins/ref/plugins
 COPY plugins.txt /usr/share/jenkins/plugins.txt
 COPY jobs/ /var/jenkins_home/jobs/
 
-RUN chown -R jenkins:jenkins /var/jenkins_home/jobs
+RUN chown -R jenkins:jenkins /var/jenkins_home
 RUN chown -R jenkins:jenkins /usr/share/jenkins/ref/plugins && \
     find /usr/share/jenkins/ref/plugins -name "*.hpi" -exec bash -c 'f="{}"; ln -s "$(basename "$f")" "${f%.hpi}.jpi"' \;
 RUN jenkins-plugin-cli \

@@ -1,6 +1,6 @@
 image:
-  repository: jenkins
-  tag: latest
+  repository: custom-jenkins
+  tag: custom
   pullPolicy: IfNotPresent
 
 service:

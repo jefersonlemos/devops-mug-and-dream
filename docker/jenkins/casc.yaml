@@ -4,9 +4,9 @@ jenkins:
       allowsSignup: false
       enableCaptcha: false
       users:
-      - id: ${JENKINS_ADMIN_ID}
-        name: ${JENKINS_ADMIN_ID}
-        password: ${JENKINS_ADMIN_PASSWORD}
+      - id: admin
+        name: admin
+        password: admin
   slaveAgentPort: 50000
   updateCenter:
     sites:
@@ -16,16 +16,20 @@ jenkins:
   - all:
       name: "all"
   viewsTabBar: "standard"
+  nodeMonitors:
+    - clockMonitor: {}
+    - responseTimeMonitor: {}
+
 globalCredentialsConfiguration:
   configuration:
     providerFilter: "none"
     typeFilter: "none"
+
 appearance:
-  prism:
-    theme: PRISM
   themeManager:
     disableUserThemes: true
-    theme: "darkSystem"
+    theme: "dark"
+
 tool:
   git:
     installations:
@@ -33,7 +37,7 @@ tool:
       name: "git"
   go:
     installations:
-    - name: "go-1.24.5"
+    - name: "go-1.24.6"
       properties:
       - installSource:
           installers:
