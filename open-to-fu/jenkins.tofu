@@ -1,9 +1,9 @@
 resource "null_resource" "jenkins" {
   provisioner "local-exec" {
     command = <<EOT
-      docker build -t jenkins:latest -f ../docker/jenkins/Dockerfile ../docker/jenkins
-      minikube image load jenkins:latest
-      helm upgrade --install jenkins jenkins/jenkins --namespace shared
+      docker build -t custom-jenkins:custom -f ../docker/jenkins/Dockerfile ../docker/jenkins
+      minikube image load custom-jenkins:custom
+      helm upgrade --install jenkins ../helm/jenkins --namespace shared
     EOT
   }
 
