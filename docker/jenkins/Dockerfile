@@ -13,10 +13,18 @@ RUN apt-get update && \
 
 RUN groupadd -f docker && usermod -aG docker jenkins
 
+COPY plugins /usr/share/jenkins/ref/plugins
 COPY plugins.txt /usr/share/jenkins/plugins.txt
-RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/plugins.txt
+COPY jobs/ /var/jenkins_home/jobs/
 
-COPY casc.yaml /var/jenkins_home/casc.yaml
-ENV CASC_JENKINS_CONFIG=/var/jenkins_home/casc.yaml
+RUN chown -R jenkins:jenkins /var/jenkins_home/jobs
+RUN chown -R jenkins:jenkins /usr/share/jenkins/ref/plugins && \
+    find /usr/share/jenkins/ref/plugins -name "*.hpi" -exec bash -c 'f="{}"; ln -s "$(basename "$f")" "${f%.hpi}.jpi"' \;
+RUN jenkins-plugin-cli \
+  --plugin-file /usr/share/jenkins/plugins.txt 
+
+COPY casc.yaml /var/jenkins_config/casc.yaml
+ENV CASC_JENKINS_CONFIG=/var/jenkins_config/casc.yaml
+ENV JAVA_OPTS=-Djenkins.install.runSetupWizard=false -Dio.jenkins.plugins.casc.ConfigurationAsCode.initialDelay=0 -Dio.jenkins.plugins.casc.ConfigurationAsCode.reload=true -Dio.jenkins.plugins.casc.ConfigurationAsCode.logLevel=FINE
 
 USER jenkins

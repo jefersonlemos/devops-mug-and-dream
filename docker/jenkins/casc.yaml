@@ -1,10 +1,41 @@
 jenkins:
-  securityRealm:
+  securityRealm:      
     local:
       allowsSignup: false
+      enableCaptcha: false
       users:
-        - id: ${JENKINS_ADMIN_ID}
-          password: ${JENKINS_ADMIN_PASSWORD}
-  authorizationStrategy:
-    loggedInUsersCanDoAnything:
-      allowAnonymousRead: false
+      - id: admin
+        name: admin
+        password: 123
+  slaveAgentPort: 50000
+  updateCenter:
+    sites:
+    - id: "default"
+      url: "https://updates.jenkins.io/update-center.json"
+  views:
+  - all:
+      name: "all"
+  viewsTabBar: "standard"
+globalCredentialsConfiguration:
+  configuration:
+    providerFilter: "none"
+    typeFilter: "none"
+appearance:
+  prism:
+    theme: PRISM
+  themeManager:
+    disableUserThemes: true
+    theme: "darkSystem"
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "git"
+  go:
+    installations:
+    - name: "go-1.24.5"
+      properties:
+      - installSource:
+          installers:
+          - golangInstaller:
+              id: "1.24.6"

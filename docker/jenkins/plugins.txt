@@ -1,5 +1,0 @@
-kubernetes
-workflow-aggregator
-git
-configuration-as-code
-golang
