@@ -38,6 +38,22 @@ pipeline {
                 """
             }
         }
+
+        stage('Tests') {
+            steps {
+                sh """
+                    go test
+                """
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh """
+                    helm create app-${params.ENV} ./helm --namespace ${params.ENV} --set image.repository=app --set image.tag=${params.ENV}
+                """
+            }
+        }
     }
 
     post {
