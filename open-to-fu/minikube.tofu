@@ -60,3 +60,6 @@ resource "kubernetes_namespace" "prod" {
   depends_on = [ null_resource.minikube ]
 }
 
+data "external" "minikube_ip" {
+  program = ["${path.module}/data/get_minikube_ip.sh"]
+}

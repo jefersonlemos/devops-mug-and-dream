@@ -13,6 +13,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                cleanWs()
                 checkout scm
             }
         }
@@ -36,6 +37,10 @@ pipeline {
                   -f app/Dockerfile .
                 """
             }
+        }
+
+        stage('Deploy') {
+
         }
     }
 

@@ -1,0 +1,29 @@
+replicaCount: 1
+
+image:
+  repository:
+  tag:
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 9090
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: go-app.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
