@@ -37,7 +37,7 @@ def job = new WorkflowJob(jenkins, jobName)
 job.setDefinition(definition)
 
 def choices = ["dev", "prod"]
-def param = new ChoiceParameterDefinition("env", choices as String[], "Choise the env")
+def param = new ChoiceParameterDefinition("ENV", choices as String[], "Choose environment")
 def paramsDef = new ParametersDefinitionProperty(param)
 job.addProperty(paramsDef)
 
