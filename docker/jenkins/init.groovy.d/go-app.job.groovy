@@ -21,7 +21,7 @@ if (jenkins.getItem(jobName) != null) {
 println "${prefix} Criating job '${jobName}'..."
 
 def gitSCM = new GitSCM(
-    GitSCM.createRepoList("https://github.com/andeerlb/devops-mug-amd-dream", null),
+    GitSCM.createRepoList("https://github.com/andeerlb/devops-mug-and-dream", null),
     [new BranchSpec("*/master")],
     false,
     Collections.emptyList(),
