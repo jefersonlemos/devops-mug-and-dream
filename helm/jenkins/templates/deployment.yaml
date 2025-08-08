@@ -19,11 +19,6 @@ spec:
           ports:
             - containerPort: 8080
             - containerPort: 50000
-          volumeMounts:
-            - name: jenkins-home
-              mountPath: /var/jenkins_home
-            - name: docker-socket
-              mountPath: /var/run/docker.sock
           env:
             - name: JENKINS_ADMIN_ID
               valueFrom:
@@ -35,11 +30,25 @@ spec:
                 secretKeyRef:
                   name: jenkins-admin-secret
                   key: JENKINS_ADMIN_PASSWORD
+            - name: DOCKER_HOST
+              value: "tcp://localhost:2375"
+          volumeMounts:
+            - name: jenkins-home
+              mountPath: /var/jenkins_home
+        - name: dind
+          image: docker:24-dind
+          securityContext:
+            privileged: true
+          args:
+            - --host=tcp://0.0.0.0:2375
+          ports:
+            - containerPort: 2375
+          env:
+            - name: DOCKER_TLS_CERTDIR
+              value: ""
       volumes:
         - name: jenkins-home
           persistentVolumeClaim:
             claimName: jenkins-pvc
-        - name: docker-socket
-          hostPath:
-            path: /var/run/docker.sock
-            type: Socket
+        - name: dockersock
+          emptyDir: {}
