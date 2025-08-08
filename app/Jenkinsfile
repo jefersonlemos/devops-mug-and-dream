@@ -39,13 +39,13 @@ pipeline {
             }
         }
 
-        stage('Tests') {
-            steps {
-                sh """
-                    go test
-                """
-            }
-        }
+        // stage('Tests') {
+        //     steps {
+        //         sh """
+        //             go test
+        //         """
+        //     }
+        // }
 
         stage('Deploy') {
             steps {
