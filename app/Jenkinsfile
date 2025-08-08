@@ -17,24 +17,23 @@ pipeline {
             }
         }
 
-        stage('Build Go App') {
+        stage('Build Docker Image') {
             steps {
-                sh '''
-                mkdir -p bin
-                cd app
-                go mod tidy
-                GOOS=linux GOARCH=amd64 go build -o ../bin/app main.go
-                '''
+                sh """
+                docker build \
+                -t app:${params.ENV} \
+                -f app/Dockerfile .
+                """
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh '''
+                sh """
                 docker build \
                   -t app:${params.ENV} \
                   -f app/Dockerfile .
-                '''
+                """
             }
         }
     }
