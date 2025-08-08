@@ -50,7 +50,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh """
-                    helm create app-${params.ENV} ./helm --namespace ${params.ENV} --set image.repository=app --set image.tag=${params.ENV}
+                    helm install --set image.repository=app --set image.tag=${params.ENV} app-${params.ENV} ./helm --namespace ${params.ENV}
                 """
             }
         }

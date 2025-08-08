@@ -3,12 +3,16 @@ FROM jenkins/jenkins:lts
 USER root
 
 RUN apt-get update && \
-    apt-get install -y curl gnupg2 apt-transport-https ca-certificates software-properties-common && \
+    apt-get install -y curl apt-transport-https ca-certificates gnupg2 software-properties-common && \
     curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" \
-      > /etc/apt/sources.list.d/docker.list && \
+        > /etc/apt/sources.list.d/docker.list && \
+    curl https://baltocdn.com/helm/signing.asc | gpg --dearmor -o /usr/share/keyrings/helm.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" \
+        > /etc/apt/sources.list.d/helm-stable-debian.list && \
     apt-get update && \
-    apt-get install -y docker-ce-cli
+    apt-get install -y docker-ce-cli helm && \
+    rm -rf /var/lib/apt/lists/*
 
 ENV GO_VERSION=1.24.6
 RUN curl -fsSL https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz -o /tmp/go.tar.gz && \
@@ -28,7 +32,7 @@ RUN chown -R jenkins:jenkins /usr/share/jenkins/ref/plugins && \
     find /usr/share/jenkins/ref/plugins -name "*.hpi" -exec bash -c 'f="{}"; ln -s "$(basename "$f")" "${f%.hpi}.jpi"' \;
 RUN jenkins-plugin-cli \
   --plugin-file /usr/share/jenkins/plugins.txt 
-
+ 
 COPY casc.yaml /var/jenkins_config/casc.yaml
 ENV CASC_JENKINS_CONFIG=/var/jenkins_config/casc.yaml
 ENV JAVA_OPTS=-Djenkins.install.runSetupWizard=false -Dio.jenkins.plugins.casc.ConfigurationAsCode.initialDelay=0 -Dio.jenkins.plugins.casc.ConfigurationAsCode.reload=true -Dio.jenkins.plugins.casc.ConfigurationAsCode.logLevel=FINE
