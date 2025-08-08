@@ -4,9 +4,12 @@ jenkins:
       allowsSignup: false
       enableCaptcha: false
       users:
-      - id: admin
-        name: admin
-        password: admin
+      - id: ${JENKINS_ADMIN_ID}
+        name: ${JENKINS_ADMIN_ID}
+        password: ${JENKINS_ADMIN_PASSWORD}
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
   slaveAgentPort: 50000
   updateCenter:
     sites:

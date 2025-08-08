@@ -15,7 +15,7 @@ RUN groupadd -f docker && usermod -aG docker jenkins
 
 COPY plugins /usr/share/jenkins/ref/plugins
 COPY plugins.txt /usr/share/jenkins/plugins.txt
-COPY jobs/ /var/jenkins_home/jobs/
+COPY init.groovy.d/ /usr/share/jenkins/ref/init.groovy.d/
 
 RUN chown -R jenkins:jenkins /var/jenkins_home
 RUN chown -R jenkins:jenkins /usr/share/jenkins/ref/plugins && \
