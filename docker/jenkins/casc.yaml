@@ -14,14 +14,14 @@ jenkins:
   updateCenter:
     sites:
     - id: "default"
-      url: "https://updates.jenkins.io/update-center.json"
+      url: "https://updates.jenkins.io/stable/update-center.json"
   views:
   - all:
       name: "all"
   viewsTabBar: "standard"
   nodeMonitors:
-    - clockMonitor: {}
-    - responseTimeMonitor: {}
+    - clock: {}
+    - responseTime: {}
 
 globalCredentialsConfiguration:
   configuration:
@@ -40,9 +40,5 @@ tool:
       name: "git"
   go:
     installations:
-    - name: "go-1.24.6"
-      properties:
-      - installSource:
-          installers:
-          - golangInstaller:
-              id: "1.24.6"
+      - name: "go-1.24.6"
+        home: "/usr/local/go"
