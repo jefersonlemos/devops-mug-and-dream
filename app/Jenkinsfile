@@ -17,12 +17,13 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Build Go App') {
             steps {
                 sh """
-                docker build \
-                -t app:${params.ENV} \
-                -f app/Dockerfile .
+                mkdir -p bin
+                cd app
+                go mod tidy
+                GOOS=linux GOARCH=amd64 go build -o ../bin/app main.go
                 """
             }
         }
