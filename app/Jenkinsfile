@@ -32,7 +32,7 @@ pipeline {
             steps {
                 sh '''
                 docker build \
-                  -t app:${params.env} \
+                  -t app:${params.ENV} \
                   -f app/Dockerfile .
                 '''
             }
