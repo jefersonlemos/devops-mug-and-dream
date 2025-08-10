@@ -53,7 +53,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh """
-                    helm install --set image.repository=registry-docker-registry.shared.svc.cluster.local:5000/app --set image.tag=${params.ENV} go-app-${params.ENV} ./app/helm --namespace ${params.ENV}
+                    helm upgrade --install --set image.repository=registry-docker-registry.shared.svc.cluster.local:5000/app --set image.tag=${params.ENV} go-app-${params.ENV} ./app/helm --namespace ${params.ENV}
                 """
             }
         }
