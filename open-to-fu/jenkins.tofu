@@ -7,7 +7,7 @@ resource "null_resource" "jenkins" {
       
       helm repo add bitnami https://charts.bitnami.com/bitnami
       helm repo update
-      helm install registry bitnami/schema-registry --namespace shared --set auth.enabled=false --set serviceAccount.name=registry --service.ports.http=5000
+      helm install registry bitnami/schema-registry --namespace shared --set auth.enabled=false --set serviceAccount.name=registry --set service.ports.http=5000
     EOT
   }
 
