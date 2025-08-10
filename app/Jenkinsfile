@@ -35,6 +35,8 @@ pipeline {
                 docker build \
                   -t app:${params.ENV} \
                   -f app/Dockerfile .
+
+                docker push registry-schema-registry.shared.svc.cluster.local/app:${params.ENV}
                 """
             }
         }
@@ -50,7 +52,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh """
-                    helm install --set image.repository=app --set image.tag=${params.ENV} go-app-${params.ENV} ./app/helm --namespace ${params.ENV}
+                    helm install --set image.repository=registry-schema-registry.shared.svc.cluster.local:5000/app --set image.tag=${params.ENV} go-app-${params.ENV} ./app/helm --namespace ${params.ENV}
                 """
             }
         }

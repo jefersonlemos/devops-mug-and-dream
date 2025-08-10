@@ -1,8 +1,8 @@
 {{- define "app.name" -}}
-{{ .Release.Name }}-{{ .Chart.Name }}
+{{ .Chart.Name }}
 {{- end }}
 
-{{- define "app.labels" -}}
-app.kubernetes.io/name: {{ include "app.name" . }}
+{{- define "go-app.labels" -}}
+app.kubernetes.io/name: {{ include "go-app.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
