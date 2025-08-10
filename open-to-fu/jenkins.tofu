@@ -5,9 +5,7 @@ resource "null_resource" "jenkins" {
       minikube image load custom-jenkins:custom
       helm install jenkins ../helm/jenkins --namespace shared
       
-      helm repo add bitnami https://charts.bitnami.com/bitnami
-      helm repo update
-      helm install registry bitnami/schema-registry --namespace shared --set auth.enabled=false --set serviceAccount.name=registry --set service.ports.http=5000
+      helm upgrade --install registry ../helm/docker-registry --namespace shared;
     EOT
   }
 

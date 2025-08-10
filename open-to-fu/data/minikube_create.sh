@@ -7,7 +7,7 @@ set -e # stop the script if something wrong
 STATUS=$(minikube status | grep 'host:' | awk '{print $2}')
 
 echo "Starting Minikube in background..."
-minikube start --driver=docker --memory=8192 --cpus=6
+minikube start --driver=docker --memory=8192 --cpus=6 --insecure-registry="registry-docker-registry.shared.svc.cluster.local:5000"
 
 while true; do
   sleep 5
