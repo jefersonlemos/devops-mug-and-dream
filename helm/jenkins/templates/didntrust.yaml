@@ -5,5 +5,5 @@ metadata:
 data:
   daemon.json: |
     {
-      "insecure-registries": ["registry.shared.svc.cluster.local:5000"]
+      "insecure-registries": ["registry-docker-registry.shared.svc.cluster.local:5000"]
     }
