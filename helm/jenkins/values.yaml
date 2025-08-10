@@ -3,6 +3,13 @@ image:
   tag: custom
   pullPolicy: IfNotPresent
 
+serviceAccount:
+  name: jenkins
+
+allowedNamespaces:
+  - dev
+  - prod
+  
 service:
   type: NodePort
   port: 8080

@@ -1,0 +1,29 @@
+{{- range .Values.allowedNamespaces }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ $.Values.serviceAccount.name }}-role
+  namespace: {{ . }}
+rules:
+- apiGroups: [""]
+  resources: ["*"]
+  verbs: ["*"]
+- apiGroups: ["apps", "extensions", "batch", "networking.k8s.io", "rbac.authorization.k8s.io"]
+  resources: ["*"]
+  verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ $.Values.serviceAccount.name }}-binding
+  namespace: {{ . }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ $.Values.serviceAccount.name }}-role
+subjects:
+- kind: ServiceAccount
+  name: {{ $.Values.serviceAccount.name }}
+  namespace: {{ $.Release.Namespace }}
+---
+{{- end }}
