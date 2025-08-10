@@ -47,9 +47,17 @@ spec:
           env:
             - name: DOCKER_TLS_CERTDIR
               value: ""
+          volumeMounts:
+            - name: dockersock
+              mountPath: /etc/docker/daemon.json
+              subPath: daemon.json
       volumes:
         - name: jenkins-home
           persistentVolumeClaim:
             claimName: jenkins-pvc
         - name: dockersock
-          emptyDir: {}
+          configMap:
+            name: docker-daemon-config
+            items:
+              - key: daemon.json
+                path: daemon.json
