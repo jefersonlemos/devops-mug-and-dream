@@ -10,9 +10,7 @@ RUN apt-get update && \
     curl https://baltocdn.com/helm/signing.asc | gpg --dearmor -o /usr/share/keyrings/helm.gpg && \
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" \
         > /etc/apt/sources.list.d/helm-stable-debian.list && \
-    apt-get update && \
-    apt-get install -y docker-ce-cli helm && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get update && apt-get install -y docker-ce-cli helm
 
 ENV GO_VERSION=1.24.6
 RUN curl -fsSL https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz -o /tmp/go.tar.gz && \
