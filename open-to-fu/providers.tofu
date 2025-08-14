@@ -8,7 +8,6 @@ terraform {
 }
 
 provider "kubernetes" {
-  alias          = "after_minikube"
   config_path    = "~/.kube/config"
   config_context = "minikube"
 }

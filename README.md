@@ -35,6 +35,7 @@ Add these plugins below:
 * configuration-as-code
 * golan
 * dark-theme
+* job-dsl
 
 # decisions
 
