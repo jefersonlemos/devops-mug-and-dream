@@ -3,12 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"math/rand"
 	"net"
 	"net/http"
 	"os"
-	"runtime"
-	"strconv"
 	"time"
 )
 
@@ -30,14 +27,10 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 	now := time.Now()
 
 	payload := map[string]interface{}{
-		"host":           hostname,
+		"host_name":      hostname,
 		"ip":             ip,
-		"hora":           now.Format(time.RFC3339),
-		"namespace":      os.Getenv("POD_NAMESPACE"),
-		"pod_name":       os.Getenv("POD_NAME"),
+		"hour":           now.Format(time.RFC3339),
 		"uptime_seconds": int(time.Since(startTime).Seconds()),
-		"go_version":     runtime.Version(),
-		"request_id":     genReqID(),
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -47,10 +40,6 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 func healthHandler(w http.ResponseWriter, _ *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("ok"))
-}
-
-func genReqID() string {
-	return strconv.FormatInt(time.Now().UnixNano(), 36) + "-" + strconv.FormatInt(rand.Int63(), 36)
 }
 
 func firstNonLoopbackIP() string {
