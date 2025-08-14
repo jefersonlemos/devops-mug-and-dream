@@ -1,83 +1,82 @@
 package main
 
 import (
-	"context"
 	"encoding/json"
-	"io/ioutil"
-	"log"
+	"fmt"
+	"math/rand"
+	"net"
 	"net/http"
 	"os"
-	"strings"
-
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/client-go/kubernetes"
-	"k8s.io/client-go/rest"
+	"runtime"
+	"strconv"
+	"time"
 )
 
-type PodInfo struct {
-	Namespace       string `json:"namespace"`
-	InstanceName    string `json:"instanceName"`
-	RunningPodCount int    `json:"runningPodCount"`
-}
+var startTime = time.Now()
 
 func main() {
-	config, err := rest.InClusterConfig()
-	if err != nil {
-		panic(err.Error())
+	http.HandleFunc("/", rootHandler)
+	http.HandleFunc("/healthz", healthHandler)
+
+	fmt.Println("Starting server on :8080")
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		fmt.Println("Server error:", err)
 	}
-
-	clientset, err := kubernetes.NewForConfig(config)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		namespace, err := getCurrentNamespace()
-		if err != nil {
-			log.Printf("Cannot get current namespace, defaulting to 'default': %v", err)
-			namespace = "default"
-		}
-
-		podName := os.Getenv("HOSTNAME")
-		if podName == "" {
-			podName = "unknown"
-		}
-
-		pods, err := clientset.CoreV1().Pods(namespace).List(context.TODO(), v1.ListOptions{})
-		if err != nil {
-			http.Error(w, "Failed to list pods: "+err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		runningCount := 0
-		for _, pod := range pods.Items {
-			if pod.Status.Phase == "Running" {
-				runningCount++
-			}
-		}
-
-		info := PodInfo{
-			Namespace:       namespace,
-			InstanceName:    podName,
-			RunningPodCount: runningCount,
-		}
-
-		w.Header().Set("Content-Type", "application/json")
-		if err := json.NewEncoder(w).Encode(info); err != nil {
-			http.Error(w, "Failed to encode JSON: "+err.Error(), http.StatusInternalServerError)
-			return
-		}
-	})
-
-	log.Println("Starting server on :9090")
-	log.Fatal(http.ListenAndServe(":9090", nil))
 }
 
-func getCurrentNamespace() (string, error) {
-	const nsPath = "/var/run/secrets/kubernetes.io/serviceaccount/namespace"
-	data, err := ioutil.ReadFile(nsPath)
-	if err != nil {
-		return "", err
+func rootHandler(w http.ResponseWriter, r *http.Request) {
+	hostname, _ := os.Hostname()
+	ip := firstNonLoopbackIP()
+	now := time.Now()
+
+	payload := map[string]interface{}{
+		"host":           hostname,
+		"ip":             ip,
+		"hora":           now.Format(time.RFC3339),
+		"namespace":      os.Getenv("POD_NAMESPACE"),
+		"pod_name":       os.Getenv("POD_NAME"),
+		"uptime_seconds": int(time.Since(startTime).Seconds()),
+		"go_version":     runtime.Version(),
+		"request_id":     genReqID(),
 	}
-	return strings.TrimSpace(string(data)), nil
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(payload)
+}
+
+func healthHandler(w http.ResponseWriter, _ *http.Request) {
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("ok"))
+}
+
+func genReqID() string {
+	return strconv.FormatInt(time.Now().UnixNano(), 36) + "-" + strconv.FormatInt(rand.Int63(), 36)
+}
+
+func firstNonLoopbackIP() string {
+	ifaces, _ := net.Interfaces()
+	for _, iface := range ifaces {
+		if iface.Flags&net.FlagUp == 0 || iface.Flags&net.FlagLoopback != 0 {
+			continue
+		}
+		addrs, _ := iface.Addrs()
+		for _, a := range addrs {
+			var ip net.IP
+			switch v := a.(type) {
+			case *net.IPNet:
+				ip = v.IP
+			case *net.IPAddr:
+				ip = v.IP
+			}
+			if ip == nil || ip.IsLoopback() {
+				continue
+			}
+			ip = ip.To4()
+			if ip == nil {
+				continue
+			}
+			return ip.String()
+		}
+	}
+	return ""
 }
