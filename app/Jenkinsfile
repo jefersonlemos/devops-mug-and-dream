@@ -55,7 +55,7 @@ pipeline {
                 sh """
                     helm upgrade --install \
                     -f ./app/helm/values.yaml \
-                    --set image.repository=registry.kube-system.svc.cluster.local:80/app \
+                    --set image.repository=local-registry:80/app \
                     --set image.tag=${params.ENV} go-app-${params.ENV} ./helm/app --namespace ${params.ENV} \
                     --recreate-pods
                 """
