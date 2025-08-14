@@ -26,6 +26,7 @@ COPY plugins.txt /usr/share/jenkins/plugins.txt
 COPY init.groovy.d/ /usr/share/jenkins/ref/init.groovy.d/
 
 RUN chown -R jenkins:jenkins /var/jenkins_home
+# For each .hpi plugin file, create a .jpi symbolic link pointing to it so Jenkins can recognize both extensions.
 RUN chown -R jenkins:jenkins /usr/share/jenkins/ref/plugins && \
     find /usr/share/jenkins/ref/plugins -name "*.hpi" -exec bash -c 'f="{}"; ln -s "$(basename "$f")" "${f%.hpi}.jpi"' \;
 RUN jenkins-plugin-cli \
