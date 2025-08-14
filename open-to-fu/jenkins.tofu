@@ -11,7 +11,6 @@ resource "null_resource" "jenkins" {
   provisioner "local-exec" {
     when    = destroy
     command = "helm uninstall jenkins --namespace infra"
-    
   }
 
   depends_on = [kubernetes_namespace.infra]
