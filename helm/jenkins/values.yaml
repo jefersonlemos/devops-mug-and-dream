@@ -1,7 +1,7 @@
 image:
   repository: custom-jenkins
   tag: custom
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 serviceAccount:
   name: jenkins
