@@ -46,13 +46,13 @@ try to use as a code, if it is possible, we can create and recreate our jenkins 
 
 to connect to jenkins:  
 ```
-kubectl port-forward service/jenkins 8080:8080 -n shared
+kubectl port-forward service/jenkins 8080:8080 -n infra
 ````
 
 ### namespaces
-* dev, prod, shared
+* dev, prod, infra
 
-I guessing that dev and prod are self-explanatory, and I think to create shared namespace to couple that apps can be use in both context, like dev and prod or to produce outputs in both.
+I guessing that dev and prod are self-explanatory, and I think to create infra namespace to couple that apps can be use in both context, like dev and prod or to produce outputs in both.
 
 ### k8s
 always use `serviceType` as `portnode`, but why?
@@ -68,9 +68,9 @@ K8S provide a network endpoint for a Pods, enabling communication both within an
         * ExternalName -> will map your service (internal service) to one external DNS (cname), like github.com, it could be one service mapped on one k8s cluster with ExternalName.
 
 ### namespaces
-* dev, prod, shared
+* dev, prod, infra
 
-I guessing that dev and prod are self-explanatory, and I think to create shared namespace to couple that apps can be use in both context, like dev and prod or to produce outputs in both.
+I guessing that dev and prod are self-explanatory, and I think to create infra namespace to couple that apps can be use in both context, like dev and prod or to produce outputs in both.
 
 ### extras 
 As I even lazy, I hate to write a lot of code, I mean, I always trying to create some scripts to improve or take my work more efficently, or if you prefer to tell, lazily, but a bit fast.

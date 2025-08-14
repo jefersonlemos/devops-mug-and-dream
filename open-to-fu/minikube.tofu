@@ -12,18 +12,18 @@ resource "null_resource" "minikube" {
   depends_on = [null_resource.setup]
 }
 
-resource "kubernetes_namespace" "shared" {
+resource "kubernetes_namespace" "infra" {
   provider = kubernetes.after_minikube
   metadata {
     annotations = {
-      description = "this namespace should be used for shared applications"
+      description = "this namespace should be used for infra applications"
     }
 
     labels = {
-      mylabel = "shared"
+      mylabel = "infra"
     }
 
-    name = "shared"
+    name = "infra"
   }
   depends_on = [ null_resource.minikube ]
 }
