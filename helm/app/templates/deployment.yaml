@@ -21,3 +21,9 @@ spec:
           ports:
             - containerPort: {{ .Values.service.port }}
               name: http
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 9090
+            initialDelaySeconds: 2
+            periodSeconds: 5
