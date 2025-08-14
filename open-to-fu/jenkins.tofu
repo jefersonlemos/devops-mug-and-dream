@@ -4,7 +4,6 @@ resource "null_resource" "jenkins" {
       docker build -t custom-jenkins:custom -f ../docker/jenkins/Dockerfile ../docker/jenkins
       minikube image load custom-jenkins:custom
       helm install jenkins ../helm/jenkins --namespace shared
-      minikube addons enable registry
     EOT
   }
 

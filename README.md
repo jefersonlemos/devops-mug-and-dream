@@ -25,6 +25,17 @@ to delete, simply run
 tofu destroy
 ```
 
+### Update the file plugins.txt
+> docker/jenkins/plugins.txt
+
+Add these plugins below:
+* kubernetes
+* workflow-aggregator
+* git
+* configuration-as-code
+* golan
+* dark-theme
+
 # decisions
 
 ### is good to try
