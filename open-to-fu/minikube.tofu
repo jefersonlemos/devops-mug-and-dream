@@ -8,8 +8,6 @@ resource "null_resource" "minikube" {
     when    = destroy
     command = "${path.module}/data/minikube_destroy.sh"
   }
-
-  depends_on = [null_resource.setup]
 }
 
 resource "kubernetes_namespace" "infra" {
