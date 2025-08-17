@@ -4,6 +4,7 @@
 provider "registry.opentofu.org/hashicorp/helm" {
   version = "3.0.2"
   hashes = [
+    "h1:17Ro1Gs9aCN5QGQ6RDvuianmNV3AxgegYqTJODlYdHI=",
     "h1:XUl51DbrTYqzzgQsih0VEjbowwVnCgixOm3zMi0qbnQ=",
     "zh:100f75a700074568cfaee7884e4477c50b5468e086db5bb95d7d519581b65621",
     "zh:578d09c7319d0dd0fee03a7fcb48bf68ac978c1fefaa0752cfcb9ecfb0a56a4e",

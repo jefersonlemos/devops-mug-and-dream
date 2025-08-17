@@ -36,8 +36,8 @@ pipeline {
                   -t app:${params.ENV} \
                   -f app/Dockerfile .
 
-                docker tag app:${params.ENV} registry.kube-system.svc.cluster.local:80/app:${params.ENV}
-                docker push registry.kube-system.svc.cluster.local:80/app:${params.ENV}
+                docker tag app:${params.ENV} registry.minikube:80/app:${params.ENV}
+                docker push registry.minikube:80/app:${params.ENV}
                 """
             }
         }
@@ -55,7 +55,7 @@ pipeline {
                 sh """
                     helm upgrade --install \
                     -f ./app/helm/values.yaml \
-                    --set image.repository=10.109.180.193:80/app \
+                    --set image.repository=registry.minikube:80/app \
                     --set image.tag=${params.ENV} go-app-${params.ENV} ./helm/app --namespace ${params.ENV} \
                     --recreate-pods
                 """

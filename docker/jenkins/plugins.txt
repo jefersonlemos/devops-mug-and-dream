@@ -1,7 +1,7 @@
-kubernetes
 workflow-aggregator
-git
 configuration-as-code
-golang
-dark-theme
-job-dsl
+theme-manager:latest
+dark-theme:latest
+git:latest
+golang:latest
+job-dsl:latest

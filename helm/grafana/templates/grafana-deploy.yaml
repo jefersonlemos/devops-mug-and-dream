@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+      - name: grafana
+        image: {{ .Values.grafana.image }}
+        env:
+          - name: GF_SECURITY_ADMIN_USER
+            value: {{ .Values.grafana.adminUser }}
+          - name: GF_SECURITY_ADMIN_PASSWORD
+            value: {{ .Values.grafana.adminPassword }}
+        ports:
+          - containerPort: 3000
+        volumeMounts:
+          - name: grafana-datasources
+            mountPath: /etc/grafana/provisioning/datasources
+          - name: grafana-dashboards
+            mountPath: /etc/grafana/provisioning/dashboards
+          - name: grafana-dashboard-files
+            mountPath: /var/lib/grafana/dashboards
+      volumes:
+        - name: grafana-datasources
+          configMap:
+            name: grafana-datasources
+        - name: grafana-dashboards
+          configMap:
+            name: grafana-dashboards
+        - name: grafana-dashboard-files
+          configMap:
+            name: grafana-dashboards
+               
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasources
+  labels:
+    grafana_datasource: "1"
+data:
+  prometheus-datasource.yml: |
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        access: proxy
+        url: http://prometheus.infra.svc.cluster.local:9090
+        isDefault: true
+        uid: prometheus
+

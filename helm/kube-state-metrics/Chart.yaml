@@ -1,0 +1,6 @@
+apiVersion: v2
+name: kube-state-metrics
+description: Minimal chart to deploy kube-state-metrics
+type: application
+version: 0.1.0
+appVersion: "2.13.0"
