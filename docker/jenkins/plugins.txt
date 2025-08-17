@@ -4,5 +4,4 @@ theme-manager:latest
 dark-theme:latest
 git:latest
 golang:latest
-kubernetes
 job-dsl:latest

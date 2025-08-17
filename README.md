@@ -5,10 +5,19 @@
 * https://grafana.com/
 * https://prometheus.io/
 
+# requirements
+
+* Minikube
+* Helm
+* OpenTofu
+* Docker
+
+
 # to run and destroy
 to create run
 ```
 tofu destroy
+tofu init
 tofu apply -target=null_resource.minikube
 tofu apply
 ```
