@@ -22,7 +22,7 @@ def param = new StringParameterDefinition(
 )
 job.addProperty(new ParametersDefinitionProperty(param))
 
-def gitUrl = "https://github.com/jefersonlemos/devops-mug-and-dream"
+def gitUrl = "https://github.com/andeerlb/devops-mug-and-dream"
 def branch = "master"
 
 def userRemoteConfig = new UserRemoteConfig(gitUrl, null, null, null)

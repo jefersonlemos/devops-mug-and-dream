@@ -9,7 +9,7 @@ pipelineJob('go-app') {
             scm {
                 git {
                     remote {
-                        url('https://github.com/jefersonlemos/devops-mug-and-dream')
+                        url('https://github.com/andeerlb/devops-mug-and-dream')
                     }
                     branches('*/master')
                     extensions {}
