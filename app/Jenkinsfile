@@ -1,4 +1,4 @@
-def REGISTRY = "10.104.57.196:80"
+def REGISTRY = "registry.kube-system.svc.cluster.local:80"
 
 pipeline {
     agent any
