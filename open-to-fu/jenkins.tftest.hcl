@@ -1,10 +1,8 @@
 run "jenkins_null_resource" {
+  command = apply
+
   assert {
-    condition     = tofu.resource.null_resource.jenkins.id != null
-    error_message = "Jenkins null_resource was not created."
-  }
-  assert {
-    condition     = length(tofu.resource.null_resource.jenkins.provisioner) >= 2
-    error_message = "Jenkins null_resource does not have both provisioners."
+    condition     = output.jenkins_service_id != null
+    error_message = "Jenkins service doesn't exist."
   }
 }

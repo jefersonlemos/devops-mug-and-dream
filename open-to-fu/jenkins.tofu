@@ -1,3 +1,12 @@
+data "kubernetes_service" "jenkins" {
+  metadata {
+    name      = "jenkins"
+    namespace = "infra"
+  }
+
+  depends_on = [ null_resource.jenkins ]
+}
+
 resource "null_resource" "jenkins" {
   provisioner "local-exec" {
     when = create
@@ -14,4 +23,8 @@ resource "null_resource" "jenkins" {
   }
 
   depends_on = [kubernetes_namespace.infra]
+}
+
+output "jenkins_service_id" {
+  value = data.kubernetes_service.jenkins.id
 }

@@ -1,26 +1,18 @@
-run "minikube_namespaces" {
+run "minikube_apply" {
+  command = apply
+
   assert {
-    condition     = tofu.resource.kubernetes_namespace.infra.metadata["name"] == "infra"
-    error_message = "Namespace 'infra' was not created."
+    condition     = kubernetes_namespace.infra.metadata[0].name == "infra"
+    error_message = "Namespace 'infra' doesn't exist."
   }
+
   assert {
-    condition     = tofu.resource.kubernetes_namespace.infra.metadata["labels"].mylabel == "infra"
-    error_message = "Namespace 'infra' does not have the correct label."
+    condition     = kubernetes_namespace.dev.metadata[0].labels.mylabel == "dev"
+    error_message = "Namespace 'dev' doesn't exist."
   }
+
   assert {
-    condition     = tofu.resource.kubernetes_namespace.dev.metadata["name"] == "dev"
-    error_message = "Namespace 'dev' was not created."
-  }
-  assert {
-    condition     = tofu.resource.kubernetes_namespace.dev.metadata["labels"].mylabel == "dev"
-    error_message = "Namespace 'dev' does not have the correct label."
-  }
-  assert {
-    condition     = tofu.resource.kubernetes_namespace.prod.metadata["name"] == "prod"
-    error_message = "Namespace 'prod' was not created."
-  }
-  assert {
-    condition     = tofu.resource.kubernetes_namespace.prod.metadata["labels"].mylabel == "prod"
-    error_message = "Namespace 'prod' does not have the correct label."
+    condition     = kubernetes_namespace.prod.metadata[0].annotations.description == "release apps"
+    error_message = "Namespace 'prod' doesn't exist."
   }
 }
