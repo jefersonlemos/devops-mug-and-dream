@@ -1,4 +1,5 @@
-def REGISTRY = "registry.kube-system.svc.cluster.local:80"
+def REGISTRY_DNS = "registry.kube-system.svc.cluster.local:80"
+def REGISTRY_IP = "10.104.57.196:80"
 
 pipeline {
     agent any
@@ -38,8 +39,8 @@ pipeline {
                   -t app:${params.ENV} \
                   -f app/Dockerfile .
 
-                docker tag app:${params.ENV} ${REGISTRY}/app:${params.ENV}
-                docker push ${REGISTRY}/app:${params.ENV}
+                docker tag app:${params.ENV} ${REGISTRY_DNS}/app:${params.ENV}
+                docker push ${REGISTRY_DNS}/app:${params.ENV}
                 """
             }
         }
@@ -57,7 +58,7 @@ pipeline {
                 sh """
                     helm upgrade --install \
                     -f ./app/helm/values.yaml \
-                    --set image.repository=${REGISTRY}/app \
+                    --set image.repository=${REGISTRY_IP}/app \
                     --set image.tag=${params.ENV} go-app-${params.ENV} ./helm/app --namespace ${params.ENV} \
                     --recreate-pods
                 """
