@@ -1,0 +1,12 @@
+grafana:
+  image: grafana/grafana:11.1.0
+  adminUser: admin
+  adminPassword: admin
+  storage: 1Gi
+  dashboardsProvider:
+    enabled: true
+    configMapName: kubernetes-dashboard
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard  
