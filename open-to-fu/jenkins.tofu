@@ -13,7 +13,7 @@ resource "null_resource" "jenkins" {
     command = <<EOT
       docker build -t custom-jenkins:custom -f ../docker/jenkins/Dockerfile ../docker/jenkins
       minikube image load custom-jenkins:custom
-      helm install jenkins ../helm/jenkins --namespace infra
+      helm upgrade --install jenkins ../helm/jenkins --namespace infra
     EOT
   }
 

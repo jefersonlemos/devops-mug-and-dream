@@ -23,6 +23,14 @@ jenkins:
     - clock: {}
     - responseTime: {}
 
+security:
+  globalJobDslSecurityConfiguration:
+    useScriptSecurity: true
+  scriptApproval:
+    approvedScriptHashes:
+    - "SHA512:f353781831dfd3ef207211defb55ebc52af3391a9ac648b5d519c961cbe46a595491a3c27c11a536066acc9d27311ac16991048ce6d09caa3abdbbfbcc1f5914"
+    forceSandbox: false
+
 globalCredentialsConfiguration:
   configuration:
     providerFilter: "none"
