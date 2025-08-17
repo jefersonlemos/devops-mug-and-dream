@@ -39,8 +39,8 @@ pipeline {
                   -t app:${params.ENV} \
                   -f app/Dockerfile .
 
-                docker tag app:${params.ENV} ${REGISTRY_DNS}/app:${params.ENV}
-                docker push ${REGISTRY_DNS}/app:${params.ENV}
+                docker tag app:${params.ENV} registry.minikube:80/app:${params.ENV}
+                docker push registry.minikube:80/app:${params.ENV}
                 """
             }
         }
