@@ -1,5 +1,5 @@
 def REGISTRY_DNS = "registry.kube-system.svc.cluster.local:80"
-def REGISTRY_IP = "10.104.57.196:80"
+def REGISTRY_IP = "10.100.249.18:80"
 
 pipeline {
     agent any
